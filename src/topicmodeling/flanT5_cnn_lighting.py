@@ -41,13 +41,13 @@ from peft import get_peft_config, get_peft_model, get_peft_model_state_dict, Pre
 
 from tqdm import tqdm
 
-from topicmodeling.CNN_Encoder import CNNEncoder, CNNDecoder, RNNEncoder
+from CNN_Encoder import CNNEncoder, CNNDecoder, RNNEncoder
 
 from torch.utils.data import DataLoader
 import lightning as L
 from transformers import default_data_collator, get_linear_schedule_with_warmup
 
-metric = datasets.load_metric('sacrebleu')
+metric = datasets.load_metric('sacrebleu', trust_remote_code=True)
 from lightning.fabric import Fabric
 from lightning.fabric.loggers import TensorBoardLogger
 
@@ -263,6 +263,9 @@ class T5AutoConfig(T5Config):
 
 
 class FlanT5NestCNNAutoencoder(PreTrainedModel):
+
+    config_class = T5AutoConfig
+    
     def __init__(self, config):
         super().__init__(config)
         #change t5-small to config 
