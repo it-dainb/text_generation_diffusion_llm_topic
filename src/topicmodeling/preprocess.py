@@ -149,16 +149,23 @@ class TextProcessor:
 
 
 
-        config = T5AutoConfig(hidden_size1=512, hidden_size3=4, 
-                                hidden_size2=768, output_size=4 * 768, 
-                                
-                                model='google/flan-t5-large',
-                                
-                                )  # Replace with your config
-        models = Encode_Sentence(config, max_length=512,
-                                pretrain_model = '/home/weijiexu/flant5_nest_peftflan-t5-large8', 
-                                pretrain_model_token = '/home/weijiexu/flant5_nest_peft_PREFIX_TUNING_SEQ_2_SEQ_LMflan-t5-large8',
-                                )
+        config = T5AutoConfig(
+            hidden_size1=512, hidden_size3=4, 
+            hidden_size2=768, output_size=4 * 768,                     
+            model='google/flan-t5-large',                        
+        )
+
+        pretrain_model = 'manhdofts03/flant5_nest_peft_PREFIX_TUNING_SEQ_2_SEQ_LMflan-t5-base5'
+        max_length = 512
+
+        models = Encode_Sentence.from_pretrained(
+            pretrained_model_name_or_path = pretrain_model,
+            pretrain_model_token = pretrain_model,
+            max_length = max_length
+        )
+
+        models.to(models.device_name)
+
         self.embeddings = models.encode(self.data)
         print(self.embeddings.shape)
 
