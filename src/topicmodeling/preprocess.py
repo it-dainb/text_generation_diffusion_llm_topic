@@ -22,7 +22,9 @@ import torch
 class TextProcessor:
 
 
-    def __init__(self, data, name):
+    def __init__(self, data, name, 
+                 max_length = 512, 
+                 pretrain_model = 'manhdofts03/flant5_nest_peft_PREFIX_TUNING_SEQ_2_SEQ_LMflan-t5-base5'):
         self.data = data
         self.name = name
         self.bow = None
@@ -35,6 +37,9 @@ class TextProcessor:
         nltk.download('wordnet')
         nltk.download('averaged_perceptron_tagger')
         nltk.download('stopwords')
+
+        self.pretrain_model = pretrain_model
+        self.max_length = max_length
 
     def __str__(self):
         """String representation of TextProcessor"""
@@ -146,13 +151,10 @@ class TextProcessor:
         print(len(results), len(results[0]))
 
     def embedding_generation(self):
-        pretrain_model = 'manhdofts03/flant5_nest_peft_PREFIX_TUNING_SEQ_2_SEQ_LMflan-t5-base5'
-        max_length = 512
-
         models = Encode_Sentence.from_pretrained(
-            pretrained_model_name_or_path = pretrain_model,
-            pretrain_model_token = pretrain_model,
-            max_length = max_length
+            pretrained_model_name_or_path = self.pretrain_model,
+            pretrain_model_token = self.pretrain_model,
+            max_length = self.max_length
         )
 
         models.to(models.device_name)
