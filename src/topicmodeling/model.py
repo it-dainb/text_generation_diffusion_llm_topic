@@ -323,7 +323,7 @@ class Topics(nn.Module):
 
 
 class TopicModel:
-    def __init__(self, epochs=20, batch_size=256, gpu_num=1, numb_embeddings=20, 
+    def __init__(self, epochs=20, batch_size=256, gpu_num=-1, numb_embeddings=20, 
                  learning_rate=0.002, weight_decay=1.2e-6, penalty=1, beta = 1, temp = 10,
                  top_n_words=20, num_representative_docs=5, top_n_topics=100, embedding_dim=100):
 
@@ -339,7 +339,12 @@ class TopicModel:
         self.num_representative_docs = num_representative_docs
         self.top_n_topics = top_n_topics
         self.embedding_dim = embedding_dim
-        self.device = torch.device(f"cuda:{gpu_num}" if torch.cuda.is_available() else "cpu")
+
+        if gpu_num > 0:
+             self.device = torch.device(f"cuda:{gpu_num}" if torch.cuda.is_available() else "cpu")
+        else:
+            self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+            
         self.beta = beta
         self.temp = temp
         self.z = None
