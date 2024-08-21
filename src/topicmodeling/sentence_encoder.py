@@ -13,14 +13,14 @@ from transformers import AutoTokenizer
 
 
 class Encode_Sentence(FlanT5NestCNNAutoencoder):
-     def __init__(self, config, pretrain_model_token, pretrain_model, *args, **kwargs):
+     def __init__(self, config, *args, **kwargs):
          super().__init__(config)
-         # model_name_or_path = kwargs.get('model_name_or_path', 'google/flan-t5-base')
+        # model_name_or_path = kwargs.get('model_name_or_path', 'google/flan-t5-base')
+         pretrain_model_token = kwargs.get('pretrain_model_token', config.model)
+
          self.tokenizer = AutoTokenizer.from_pretrained(pretrain_model_token)
-         self.load_state_dict(torch.load(pretrain_model))
-         self.max_length = kwargs.get('max_length', 256)
+         self.max_length = config.max_length
          self.device_name = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-         self.to(self.device_name)
     
      def encode(self, sentences, batch_size=32, **kwargs):
         # Tokenize all sentences and create a TensorDataset
