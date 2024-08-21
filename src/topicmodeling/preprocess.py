@@ -146,15 +146,6 @@ class TextProcessor:
         print(len(results), len(results[0]))
 
     def embedding_generation(self):
-
-
-
-        config = T5AutoConfig(
-            hidden_size1=512, hidden_size3=4, 
-            hidden_size2=768, output_size=4 * 768,                     
-            model='google/flan-t5-large',                        
-        )
-
         pretrain_model = 'manhdofts03/flant5_nest_peft_PREFIX_TUNING_SEQ_2_SEQ_LMflan-t5-base5'
         max_length = 512
 
