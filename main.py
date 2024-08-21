@@ -83,8 +83,8 @@ if __name__ == '__main__':
         df_text, 
         args.data_path.replace('/', '_'),
         hyperparameters = {
-            max_length = args.max_length
-            pretrain_model = args.pretrain_model
+            'max_length': args.max_length,
+            'pretrain_model': args.pretrain_model
         }
     )
 
