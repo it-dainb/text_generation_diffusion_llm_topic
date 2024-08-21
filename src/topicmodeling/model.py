@@ -374,10 +374,14 @@ class TopicModel:
 
         print(total_nll/length, total_kld/length)
 
-    def fit_transform(self, dataset, name, index = []):
+    def fit_transform(self, dataset, name, index = [], **kargs):
         self.dataset = dataset
         self.name = name
-        self.tp = TextProcessor(self.dataset, self.name)
+
+        max_length = kargs.get(max_length, 512), 
+        pretrain_model = kargs.get(pretrain_model, 'manhdofts03/flant5_nest_peft_PREFIX_TUNING_SEQ_2_SEQ_LMflan-t5-base5')
+        self.tp = TextProcessor(self.dataset, self.name, max_length, pretrain_model)
+        
         self.tp.process()
         bag_of_words = torch.tensor(self.tp.bow)
         embedding_text = torch.tensor(self.tp.embeddings )
@@ -545,7 +549,7 @@ class TopicModel:
 
         # Check if the model has been trained
         if self.z is None:
-            self.fit_transform(dataset, name)
+            self.fit_transform(dataset, name, **hyperparameters)
 
         # Create the model output
         model_output = {}
