@@ -378,7 +378,7 @@ class TopicModel:
         self.dataset = dataset
         self.name = name
 
-        max_length = kargs.get('max_length', 512), 
+        max_length = kargs.get('max_length', 512)
         pretrain_model = kargs.get('pretrain_model', 'manhdofts03/flant5_nest_peft_PREFIX_TUNING_SEQ_2_SEQ_LMflan-t5-base5')
         self.tp = TextProcessor(self.dataset, self.name, max_length, pretrain_model)
         
