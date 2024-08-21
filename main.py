@@ -79,9 +79,6 @@ if __name__ == '__main__':
         embedding_dim=args.embedding_dim
     )
 
-    max_length = kargs.get(max_length, 512), 
-    pretrain_model = kargs.get(pretrain_model, 'manhdofts03/flant5_nest_peft_PREFIX_TUNING_SEQ_2_SEQ_LMflan-t5-base5')
-
     model_output = tm.train_model(
         df_text, 
         args.data_path.replace('/', '_'),
