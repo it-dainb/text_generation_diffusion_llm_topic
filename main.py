@@ -49,6 +49,8 @@ parser.add_argument('--data_source', type=str, default='huggingface', help='Data
 parser.add_argument('--data_path', type=str, default='', help='Path to the data file for csv or txt')
 parser.add_argument('--metrics', nargs='+', default=['diversity', 'c_v', 'c_npmi', 'c_uci', 'u_mass'], help='List of metrics to report')
 parser.add_argument('--topk', type=int, default=10, help='top k words to report for diversity')
+parser.add_argument('--max_length', type=int, default=512, help='max length of the model')
+parser.add_argument('--pretrain_model', type=str, default='manhdofts03/flant5_nest_peft_PREFIX_TUNING_SEQ_2_SEQ_LMflan-t5-base5', help='pretrained model')
 
 if __name__ == '__main__':
     # Parse arguments
@@ -77,7 +79,17 @@ if __name__ == '__main__':
         embedding_dim=args.embedding_dim
     )
 
-    model_output = tm.train_model(df_text, args.data_path.replace('/', '_'))
+    max_length = kargs.get(max_length, 512), 
+    pretrain_model = kargs.get(pretrain_model, 'manhdofts03/flant5_nest_peft_PREFIX_TUNING_SEQ_2_SEQ_LMflan-t5-base5')
+
+    model_output = tm.train_model(
+        df_text, 
+        args.data_path.replace('/', '_'),
+        hyperparameters = {
+            max_length = args.max_length
+            pretrain_model = args.pretrain_model
+        }
+    )
 
     scores = []
     #evaluation
