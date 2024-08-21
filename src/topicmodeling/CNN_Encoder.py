@@ -12,7 +12,7 @@ import random
 import os
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
 
-metric = datasets.load_metric('sacrebleu')
+metric = datasets.load_metric('sacrebleu', trust_remote_code=True)
 
 # Define the CNN encoder and decoder model
 class CNNEncoder(nn.Module):
